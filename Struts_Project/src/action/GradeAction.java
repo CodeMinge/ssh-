@@ -15,6 +15,8 @@ public class GradeAction extends ActionSupport {
 	private PageBean pageBean;
 	private String s_gradeName = "";
 	private Grade grade;
+	private String delIds;
+	private String id;
 	
 	DbUtil dbUtil=new DbUtil();
 	GradeDao gradeDao=new GradeDao();
@@ -40,6 +42,76 @@ public class GradeAction extends ActionSupport {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
+			try {
+				dbUtil.closeCon(con);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
+	public String delete()throws Exception{
+		Connection con=null;
+		try{
+			con=dbUtil.getCon();
+			JSONObject result=new JSONObject();
+			String str[]=delIds.split(",");
+			for(int i=0;i<str.length;i++){
+				boolean f=studentDao.getStudentByGradeId(con, str[i]);
+				if(f){
+					result.put("errorIndex", i);
+					result.put("errorMsg", "班级下面有学生，不能删除！");
+					ResponseUtil.write(ServletActionContext.getResponse(), result);
+					return null;
+				}
+			}
+			int delNums=gradeDao.gradeDelete(con, delIds);
+			if(delNums>0){
+				result.put("success", "true");
+				result.put("delNums", delNums);
+			}else{
+				result.put("errorMsg", "删除失败");
+			}
+			ResponseUtil.write(ServletActionContext.getResponse(), result);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				dbUtil.closeCon(con);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
+	public String save()throws Exception{
+		if(StringUtil.isNotEmpty(id)){
+			grade.setId(Integer.parseInt(id));
+		}
+		Connection con=null;
+		try{
+			con=dbUtil.getCon();
+			int saveNums=0;
+			JSONObject result=new JSONObject();
+			if(StringUtil.isNotEmpty(id)){
+				saveNums=gradeDao.gradeModify(con, grade);
+			}else{
+				saveNums=gradeDao.gradeAdd(con, grade);
+			}
+			if(saveNums>0){
+				result.put("success", "true");
+			}else{
+				result.put("success", "true");
+				result.put("errorMsg", "保存失败");
+			}
+			ResponseUtil.write(ServletActionContext.getResponse(), result);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
 			try {
 				dbUtil.closeCon(con);
 			} catch (Exception e) {
@@ -80,6 +152,22 @@ public class GradeAction extends ActionSupport {
 
 	public void setRows(String rows) {
 		this.rows = rows;
+	}
+
+	public Grade getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Grade grade) {
+		this.grade = grade;
+	}
+
+	public String getDelIds() {
+		return delIds;
+	}
+
+	public void setDelIds(String delIds) {
+		this.delIds = delIds;
 	}	
 	
 }

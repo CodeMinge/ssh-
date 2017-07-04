@@ -44,7 +44,7 @@ public class GradeDao {
 	}
 	
 	public int gradeAdd(Connection con,Grade grade)throws Exception{
-		String sql="insert into t_grade values(null,?,?)";
+		String sql="insert into t_grade values(?,?)";
 		PreparedStatement pstmt=con.prepareStatement(sql);
 		pstmt.setString(1, grade.getGradeName());
 		pstmt.setString(2, grade.getGradeDesc());
