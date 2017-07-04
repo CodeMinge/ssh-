@@ -10,8 +10,11 @@
 			<result name="error">/index.jsp</result>
 			<result name="success" type="redirect">/main.jsp</result>
 		</action>
-
-
+		
+		<action name="grade" class="action.GradeAction">
+		</action>
+		
+		
 	</package>
 
 </struts>
