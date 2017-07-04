@@ -121,6 +121,30 @@ public class GradeAction extends ActionSupport {
 		}
 		return null;
 	}
+	
+	public String gradeComboList()throws Exception{
+		Connection con=null;
+		try{
+			con=dbUtil.getCon();
+			JSONArray jsonArray=new JSONArray();
+			JSONObject jsonObject=new JSONObject();
+			jsonObject.put("id", "");
+			jsonObject.put("gradeName", "«Î—°‘Ò...");
+			jsonArray.add(jsonObject);
+			jsonArray.addAll(JsonUtil.formatRsToJsonArray(gradeDao.gradeList(con, null,null)));
+			ResponseUtil.write(ServletActionContext.getResponse(), jsonArray);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try {
+				dbUtil.closeCon(con);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 
 	public PageBean getPageBean() {
 		return pageBean;

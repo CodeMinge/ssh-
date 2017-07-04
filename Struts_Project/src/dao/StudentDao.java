@@ -31,9 +31,9 @@ public class StudentDao {
 		if(StringUtil.isNotEmpty(ebirthday)){
 			sb.append(" and TO_DAYS(s.birthday)<=TO_DAYS('"+ebirthday+"')");
 		}
-		if(pageBean!=null){
-			sb.append(" limit "+pageBean.getStart()+","+pageBean.getRows());
-		}
+//		if(pageBean!=null){
+//			sb.append(" limit "+pageBean.getStart()+","+pageBean.getRows());
+//		}
 		PreparedStatement pstmt=con.prepareStatement(sb.toString());
 		return pstmt.executeQuery();
 	}
@@ -74,7 +74,7 @@ public class StudentDao {
 	}
 	
 	public int studentAdd(Connection con,Student student)throws Exception{
-		String sql="insert into t_student values(null,?,?,?,?,?,?,?)";
+		String sql="insert into t_student values(?,?,?,?,?,?,?)";
 		PreparedStatement pstmt=con.prepareStatement(sql);
 		pstmt.setString(1, student.getStuNo());
 		pstmt.setString(2, student.getStuName());
