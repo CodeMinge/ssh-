@@ -17,6 +17,7 @@ public class LoginAction extends ActionSupport implements ServletRequestAware {
 
 	private User user;
 	private String error;
+	private String imageCode;
 
 	DbUtil dbUtil = new DbUtil();
 	UserDao userDao = new UserDao();
@@ -29,6 +30,16 @@ public class LoginAction extends ActionSupport implements ServletRequestAware {
 
 		if (StringUtil.isEmpty(user.getUserName()) || StringUtil.isEmpty(user.getPassword())) {
 			error = "用户名或密码为空！";
+			return ERROR;
+		}
+		
+		if (StringUtil.isEmpty(imageCode)) {
+			error = "验证码为空！";
+			return ERROR;
+		}
+		
+		if(!imageCode.equals(session.getAttribute("sRand"))) {
+			error = "验证码错误！";
 			return ERROR;
 		}
 
@@ -78,4 +89,12 @@ public class LoginAction extends ActionSupport implements ServletRequestAware {
 	public void setError(String error) {
 		this.error = error;
 	}
+
+	public String getImageCode() {
+		return imageCode;
+	}
+
+	public void setImageCode(String imageCode) {
+		this.imageCode = imageCode;
+	}	
 }

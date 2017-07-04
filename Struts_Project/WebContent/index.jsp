@@ -5,6 +5,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>学生信息管理系统登录</title>
+
+<script type="text/javascript">
+	function resetValue() {
+		document.getElementById("userName").value = "";
+		document.getElementById("password").value = "";
+	}
+
+	function loadimage() {
+		document.getElementById("randImage").src = "image.jsp?" + Math.random();
+	}
+</script>
+
 </head>
 <body>
 	<div align="center" style="padding-top: 50px;">
@@ -26,12 +38,22 @@
 					<td><input type="password" value="${user.password }"
 						name="user.password" id="password" /></td>
 					<td width="30%"></td>
-				</tr>			
+				</tr>
 				<tr height="10">
 					<td width="40%"></td>
-					<td width="10%"><input type="submit" value="登录" /></td>
+					<td width="10%">验证码：</td>
+					<td>
+						<input type="text" value="${imageCode }" name="imageCode" id="imageCode" size="10"/>
+						<img onclick="javascript:loadimage();"  title="换一张试试" name="randImage" id="randImage" src="image.jsp" width="60" height="20" border="1" align="absmiddle">
+					</td>
 					<td width="30%"></td>
-				</tr>
+			    </tr>
+			    <tr height="10">
+					<td width="40%"></td>
+					<td width="10%"><input type="submit" value="登录"/></td>
+					<td><input type="button" value="重置" onclick="resetValue()"/></td>
+					<td width="30%"></td>
+			    </tr>
 				<tr height="10">
 					<td width="40%"></td>
 					<td colspan="3"><font color="red">${error }</font></td>
