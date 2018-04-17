@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>android解析XML总结（SAX、Pull、Dom三种方式） - wangyan9110 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-LessIsMore.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/JerryWang1991/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/JerryWang1991/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/JerryWang1991/wlwmanifest.xml">
+<script src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js" type="text/javascript"></script><script src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'JerryWang1991', cb_enable_mathjax=false;</script>
+<script src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/JerryWang1991/">wangyan9110</a></div>
+<div class="subtitle">记录点点滴滴。。</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/JerryWang1991/">首页</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="MyLinks1_ContactLink" class="menu" rel="nofollow" href="http://msg.cnblogs.com/send/wangyan9110">联系</a></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/JerryWang1991/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/JerryWang1991/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-52&nbsp;
+文章-16&nbsp;
+评论-80&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/JerryWang1991/archive/2012/02/24/2365507.html">android解析XML总结（SAX、Pull、Dom三种方式）</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>&nbsp; &nbsp; &nbsp;<span style="color: #0000ff;">欢迎我的独立博客，博客地址<a href="http://yywang.info/">http://yywang.info</a></span></p>
+<p>&nbsp; &nbsp; &nbsp;在android开发中，经常用到去解析xml文件，常见的解析xml的方式有一下三种：SAX、Pull、Dom解析方式。最近做了一个android版的<a href="http://blog.csdn.net/wangyan9110/article/details/7260765" target="_blank">CSDN阅读器</a>，用到了其中的两种（sax,pull），今天对android解析xml的这三种方式进行一次总结。</p>
+<p>&nbsp; &nbsp; &nbsp;今天解析的xml示例（channels.xml）如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">&lt;?</span><span style="color: #ff00ff;">xml version="1.0" encoding="utf-8"</span><span style="color: #0000ff;">?&gt;</span><br><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">channel</span><span style="color: #0000ff;">&gt;</span><br><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">item </span><span style="color: #ff0000;">id</span><span style="color: #0000ff;">="0"</span><span style="color: #ff0000;"> url</span><span style="color: #0000ff;">="http://www.baidu.com"</span><span style="color: #0000ff;">&gt;</span>百度<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">item</span><span style="color: #0000ff;">&gt;</span><br><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">item </span><span style="color: #ff0000;">id</span><span style="color: #0000ff;">="1"</span><span style="color: #ff0000;"> url</span><span style="color: #0000ff;">="http://www.qq.com"</span><span style="color: #0000ff;">&gt;</span>腾讯<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">item</span><span style="color: #0000ff;">&gt;</span><br><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">item </span><span style="color: #ff0000;">id</span><span style="color: #0000ff;">="2"</span><span style="color: #ff0000;"> url</span><span style="color: #0000ff;">="http://www.sina.com.cn"</span><span style="color: #0000ff;">&gt;</span>新浪<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">item</span><span style="color: #0000ff;">&gt;</span><br><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">item </span><span style="color: #ff0000;">id</span><span style="color: #0000ff;">="3"</span><span style="color: #ff0000;"> url</span><span style="color: #0000ff;">="http://www.taobao.com"</span><span style="color: #0000ff;">&gt;</span>淘宝<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">item</span><span style="color: #0000ff;">&gt;</span><br><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">channel</span><span style="color: #0000ff;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 14pt;">&nbsp;一、使用sax方式解析</span></strong></p>
+<p><span style="color: #ff0000;">&nbsp;基础知识：</span></p>
+<p>&nbsp; &nbsp; &nbsp;这种方式解析是一种基于事件驱动的api，有两个部分，解析器和事件处理器，解析器就是XMLReader接口，负责读取XML文档，和向事件处理器发送事件(也是事件源)，事件处理器ContentHandler接口，负责对发送的事件响应和进行XML文档处理。</p>
+<p>&nbsp; &nbsp; &nbsp;下面是ContentHandler接口的常用方法</p>
+<p>&nbsp; &nbsp; &nbsp;public abstract void characters (char[] ch, int start, int length)</p>
+<p>&nbsp; &nbsp; &nbsp; 这个方法来接收字符块通知，解析器通过这个方法来报告字符数据块，解析器为了提高解析效率把读到的所有字符串放到一个字符数组（ch）中，作为参数传递给character的方法中，如果想获取本次事件中读取到的字符数据，需要使用start和length属性。</p>
+<p>&nbsp; &nbsp;&nbsp;public abstract void startDocument () 接收文档开始的通知</p>
+<p>&nbsp; &nbsp;&nbsp;&nbsp;public abstract void endDocument () 接收文档结束的通知</p>
+<p>&nbsp; &nbsp;&nbsp;public abstract void startElement (String uri, String localName, String qName, Attributes atts) 接收文档开始的标签</p>
+<p>&nbsp; &nbsp;&nbsp;public abstract void endElement (String uri, String localName, String qName) 接收文档结束的标签</p>
+<p>&nbsp; &nbsp; 在一般使用中为了简化开发，在<span>org.xml.sax.helpers提供了一个</span>DefaultHandler类，它实现了ContentHandler的方法，我们只想继承DefaultHandler方法即可。</p>
+<p>&nbsp; &nbsp;另外SAX解析器提供了一个工厂类：SAXParserFactory，SAX的解析类为SAXParser 可以调用它的parser方法进行解析。</p>
+<p>&nbsp; &nbsp;看了些基础以后开始上代码吧（核心代码，下载代码在附件）</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">class</span> SAXPraserHelper <span style="color: #0000ff;">extends</span> DefaultHandler {<br><span style="color: #008080;"> 2</span> <br><span style="color: #008080;"> 3</span>     <span style="color: #0000ff;">final</span> <span style="color: #0000ff;">int</span> ITEM = 0x0005;<br><span style="color: #008080;"> 4</span> <br><span style="color: #008080;"> 5</span>     List&lt;channel&gt; list;<br><span style="color: #008080;"> 6</span>     channel chann;<br><span style="color: #008080;"> 7</span>     <span style="color: #0000ff;">int</span> currentState = 0;<br><span style="color: #008080;"> 8</span> <br><span style="color: #008080;"> 9</span>     <span style="color: #0000ff;">public</span> List&lt;channel&gt; getList() {<br><span style="color: #008080;">10</span>         <span style="color: #0000ff;">return</span> list;<br><span style="color: #008080;">11</span>     }<br><span style="color: #008080;">12</span> <br><span style="color: #008080;">13</span>     <span style="color: #008000;">/*</span><span style="color: #008000;"><br></span><span style="color: #008080;">14</span> <span style="color: #008000;">     * 接口字符块通知<br></span><span style="color: #008080;">15</span> <span style="color: #008000;">*/</span><br><span style="color: #008080;">16</span>     @Override<br><span style="color: #008080;">17</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">void</span> characters(<span style="color: #0000ff;">char</span>[] ch, <span style="color: #0000ff;">int</span> start, <span style="color: #0000ff;">int</span> length)<br><span style="color: #008080;">18</span>             <span style="color: #0000ff;">throws</span> SAXException {<br><span style="color: #008080;">19</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated method stub<br></span><span style="color: #008080;">20</span> <span style="color: #008000;">//</span><span style="color: #008000;"> super.characters(ch, start, length);</span><span style="color: #008000;"><br></span><span style="color: #008080;">21</span>         String theString = String.valueOf(ch, start, length);<br><span style="color: #008080;">22</span>         <span style="color: #0000ff;">if</span> (currentState != 0) {<br><span style="color: #008080;">23</span>             chann.setName(theString);<br><span style="color: #008080;">24</span>             currentState = 0;<br><span style="color: #008080;">25</span>         }<br><span style="color: #008080;">26</span>         <span style="color: #0000ff;">return</span>;<br><span style="color: #008080;">27</span>     }<br><span style="color: #008080;">28</span> <br><span style="color: #008080;">29</span>     <span style="color: #008000;">/*</span><span style="color: #008000;"><br></span><span style="color: #008080;">30</span> <span style="color: #008000;">     * 接收文档结束通知<br></span><span style="color: #008080;">31</span> <span style="color: #008000;">*/</span><br><span style="color: #008080;">32</span>     @Override<br><span style="color: #008080;">33</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">void</span> endDocument() <span style="color: #0000ff;">throws</span> SAXException {<br><span style="color: #008080;">34</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated method stub</span><span style="color: #008000;"><br></span><span style="color: #008080;">35</span>         <span style="color: #0000ff;">super</span>.endDocument();<br><span style="color: #008080;">36</span>     }<br><span style="color: #008080;">37</span> <br><span style="color: #008080;">38</span>     <span style="color: #008000;">/*</span><span style="color: #008000;"><br></span><span style="color: #008080;">39</span> <span style="color: #008000;">     * 接收标签结束通知<br></span><span style="color: #008080;">40</span> <span style="color: #008000;">*/</span><br><span style="color: #008080;">41</span>     @Override<br><span style="color: #008080;">42</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">void</span> endElement(String uri, String localName, String qName)<br><span style="color: #008080;">43</span>             <span style="color: #0000ff;">throws</span> SAXException {<br><span style="color: #008080;">44</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated method stub</span><span style="color: #008000;"><br></span><span style="color: #008080;">45</span>         <span style="color: #0000ff;">if</span> (localName.equals("item"))<br><span style="color: #008080;">46</span>             list.add(chann);<br><span style="color: #008080;">47</span>     }<br><span style="color: #008080;">48</span> <br><span style="color: #008080;">49</span>     <span style="color: #008000;">/*</span><span style="color: #008000;"><br></span><span style="color: #008080;">50</span> <span style="color: #008000;">     * 文档开始通知<br></span><span style="color: #008080;">51</span> <span style="color: #008000;">*/</span><br><span style="color: #008080;">52</span>     @Override<br><span style="color: #008080;">53</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">void</span> startDocument() <span style="color: #0000ff;">throws</span> SAXException {<br><span style="color: #008080;">54</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated method stub</span><span style="color: #008000;"><br></span><span style="color: #008080;">55</span>         list = <span style="color: #0000ff;">new</span> ArrayList&lt;channel&gt;();<br><span style="color: #008080;">56</span>     }<br><span style="color: #008080;">57</span> <br><span style="color: #008080;">58</span>     <span style="color: #008000;">/*</span><span style="color: #008000;"><br></span><span style="color: #008080;">59</span> <span style="color: #008000;">     * 标签开始通知<br></span><span style="color: #008080;">60</span> <span style="color: #008000;">*/</span><br><span style="color: #008080;">61</span>     @Override<br><span style="color: #008080;">62</span>     <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">void</span> startElement(String uri, String localName, String qName,<br><span style="color: #008080;">63</span>             Attributes attributes) <span style="color: #0000ff;">throws</span> SAXException {<br><span style="color: #008080;">64</span>         <span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated method stub</span><span style="color: #008000;"><br></span><span style="color: #008080;">65</span>         chann = <span style="color: #0000ff;">new</span> channel();<br><span style="color: #008080;">66</span>         <span style="color: #0000ff;">if</span> (localName.equals("item")) {<br><span style="color: #008080;">67</span>             <span style="color: #0000ff;">for</span> (<span style="color: #0000ff;">int</span> i = 0; i &lt; attributes.getLength(); i++) {<br><span style="color: #008080;">68</span>                 <span style="color: #0000ff;">if</span> (attributes.getLocalName(i).equals("id")) {<br><span style="color: #008080;">69</span>                     chann.setId(attributes.getValue(i));<br><span style="color: #008080;">70</span>                 } <span style="color: #0000ff;">else</span> <span style="color: #0000ff;">if</span> (attributes.getLocalName(i).equals("url")) {<br><span style="color: #008080;">71</span>                     chann.setUrl(attributes.getValue(i));<br><span style="color: #008080;">72</span>                 }<br><span style="color: #008080;">73</span>             }<br><span style="color: #008080;">74</span>             currentState = ITEM;<br><span style="color: #008080;">75</span>             <span style="color: #0000ff;">return</span>;<br><span style="color: #008080;">76</span>         }<br><span style="color: #008080;">77</span>         currentState = 0;<br><span style="color: #008080;">78</span>         <span style="color: #0000ff;">return</span>;<br><span style="color: #008080;">79</span>     }<br><span style="color: #008080;">80</span> }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">private</span> List&lt;channel&gt; getChannelList() <span style="color: #0000ff;">throws</span> ParserConfigurationException, SAXException, IOException<br><span style="color: #008080;"> 2</span>     {<br><span style="color: #008080;"> 3</span>         <span style="color: #008000;">//</span><span style="color: #008000;">实例化一个SAXParserFactory对象</span><span style="color: #008000;"><br></span><span style="color: #008080;"> 4</span>         SAXParserFactory factory=SAXParserFactory.newInstance();<br><span style="color: #008080;"> 5</span>         SAXParser parser;<br><span style="color: #008080;"> 6</span>         <span style="color: #008000;">//</span><span style="color: #008000;">实例化SAXParser对象，创建XMLReader对象，解析器</span><span style="color: #008000;"><br></span><span style="color: #008080;"> 7</span>         parser=factory.newSAXParser();<br><span style="color: #008080;"> 8</span>         XMLReader xmlReader=parser.getXMLReader();<br><span style="color: #008080;"> 9</span>         <span style="color: #008000;">//</span><span style="color: #008000;">实例化handler，事件处理器</span><span style="color: #008000;"><br></span><span style="color: #008080;">10</span>         SAXPraserHelper helperHandler=<span style="color: #0000ff;">new</span> SAXPraserHelper();<br><span style="color: #008080;">11</span>         <span style="color: #008000;">//</span><span style="color: #008000;">解析器注册事件</span><span style="color: #008000;"><br></span><span style="color: #008080;">12</span>         xmlReader.setContentHandler(helperHandler);<br><span style="color: #008080;">13</span>         <span style="color: #008000;">//</span><span style="color: #008000;">读取文件流</span><span style="color: #008000;"><br></span><span style="color: #008080;">14</span>         InputStream stream=getResources().openRawResource(R.raw.channels);<br><span style="color: #008080;">15</span>         InputSource is=<span style="color: #0000ff;">new</span> InputSource(stream);<br><span style="color: #008080;">16</span>         <span style="color: #008000;">//</span><span style="color: #008000;">解析文件</span><span style="color: #008000;"><br></span><span style="color: #008080;">17</span>         xmlReader.parse(is);<br><span style="color: #008080;">18</span>         <span style="color: #0000ff;">return</span> helperHandler.getList();<br><span style="color: #008080;">19</span>     }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>从第二部分代码，可以看出使用SAX解析XML的步骤：</p>
+<p>1、实例化一个工厂SAXParserFactory</p>
+<p>2、实例化SAXPraser对象，创建XMLReader 解析器</p>
+<p>3、实例化handler，处理器</p>
+<p>4、解析器注册一个事件</p>
+<p>4、读取文件流</p>
+<p>5、解析文件</p>
+<p><strong><span style="font-size: 14pt;">二、使用pull方式解析</span></strong></p>
+<p><span style="color: #ff0000;">基础知识：</span></p>
+<p>&nbsp; &nbsp; &nbsp; 在android系统中，很多资源文件中,很多都是xml格式，在android系统中解析这些xml的方式，是使用pul解析器进行解析的，它和sax解析一样（个人感觉要比sax简单点），也是采用事件驱动进行解析的，当pull解析器，开始解析之后，我们可以调用它的next（）方法，来获取下一个解析事件（就是开始文档，结束文档，开始标签，结束标签），当处于某个元素时可以调用XmlPullParser的getAttributte()方法来获取属性的值，也可调用它的nextText()获取本节点的值。</p>
+<p>其实以上描述，就是对整个解析步骤的一个描述，看看代码吧</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">private</span> List&lt;Map&lt;String, String&gt;&gt; getData() {<br><span style="color: #008080;"> 2</span>         List&lt;Map&lt;String, String&gt;&gt; list = <span style="color: #0000ff;">new</span> ArrayList&lt;Map&lt;String, String&gt;&gt;();<br><span style="color: #008080;"> 3</span>         XmlResourceParser xrp = getResources().getXml(R.xml.channels);<br><span style="color: #008080;"> 4</span> <br><span style="color: #008080;"> 5</span>         <span style="color: #0000ff;">try</span> {<br><span style="color: #008080;"> 6</span>             <span style="color: #008000;">//</span><span style="color: #008000;"> 直到文档的结尾处</span><span style="color: #008000;"><br></span><span style="color: #008080;"> 7</span>             <span style="color: #0000ff;">while</span> (xrp.getEventType() != XmlResourceParser.END_DOCUMENT) {<br><span style="color: #008080;"> 8</span>                 <span style="color: #008000;">//</span><span style="color: #008000;"> 如果遇到了开始标签</span><span style="color: #008000;"><br></span><span style="color: #008080;"> 9</span>                 <span style="color: #0000ff;">if</span> (xrp.getEventType() == XmlResourceParser.START_TAG) {<br><span style="color: #008080;">10</span>                     String tagName = xrp.getName();<span style="color: #008000;">//</span><span style="color: #008000;"> 获取标签的名字</span><span style="color: #008000;"><br></span><span style="color: #008080;">11</span>                     <span style="color: #0000ff;">if</span> (tagName.equals("item")) {<br><span style="color: #008080;">12</span>                         Map&lt;String, String&gt; map = <span style="color: #0000ff;">new</span> HashMap&lt;String, String&gt;();<br><span style="color: #008080;">13</span>                         String id = xrp.getAttributeValue(<span style="color: #0000ff;">null</span>, "id");<span style="color: #008000;">//</span><span style="color: #008000;"> 通过属性名来获取属性值</span><span style="color: #008000;"><br></span><span style="color: #008080;">14</span>                         map.put("id", id);<br><span style="color: #008080;">15</span>                         String url = xrp.getAttributeValue(1);<span style="color: #008000;">//</span><span style="color: #008000;"> 通过属性索引来获取属性值</span><span style="color: #008000;"><br></span><span style="color: #008080;">16</span>                         map.put("url", url);<br><span style="color: #008080;">17</span>                         map.put("name", xrp.nextText());<br><span style="color: #008080;">18</span>                         list.add(map);<br><span style="color: #008080;">19</span>                     }<br><span style="color: #008080;">20</span>                 }<br><span style="color: #008080;">21</span>                 xrp.next();<span style="color: #008000;">//</span><span style="color: #008000;"> 获取解析下一个事件</span><span style="color: #008000;"><br></span><span style="color: #008080;">22</span>             }<br><span style="color: #008080;">23</span>         } <span style="color: #0000ff;">catch</span> (XmlPullParserException e) {<br><span style="color: #008080;">24</span>             <span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated catch block</span><span style="color: #008000;"><br></span><span style="color: #008080;">25</span>             e.printStackTrace();<br><span style="color: #008080;">26</span>         } <span style="color: #0000ff;">catch</span> (IOException e) {<br><span style="color: #008080;">27</span>             <span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated catch block</span><span style="color: #008000;"><br></span><span style="color: #008080;">28</span>             e.printStackTrace();<br><span style="color: #008080;">29</span>         }<br><span style="color: #008080;">30</span> <br><span style="color: #008080;">31</span>         <span style="color: #0000ff;">return</span> list;<br><span style="color: #008080;">32</span>     }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p><strong><span style="font-size: 14pt;">三、使用Dom方式解析</span></strong></p>
+<p><span style="color: #ff0000;">基础知识：</span></p>
+<p>&nbsp; &nbsp; &nbsp;最后来看看Dom解析方式，这种方式解析自己之前也没有用过（在j2ee开发中比较常见，没有做过这方面的东西），在Dom解析的过程中，是先把dom全部文件读入到内存中，然后使用dom的api遍历所有数据，检索想要的数据，这种方式显然是一种比较消耗内存的方式，对于像手机这样的移动设备来讲，内存是非常有限的，所以对于比较大的XML文件,不推荐使用这种方式，但是Dom也有它的优点，它比较直观，在一些方面比SAX方式比较简单。在xml文档比较小的情况下也可以考虑使用dom方式。</p>
+<p>Dom方式解析的核心代码如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;"> 1</span> <span style="color: #0000ff;">public</span> <span style="color: #0000ff;">static</span> List&lt;channel&gt; getChannelList(InputStream stream)<br><span style="color: #008080;"> 2</span>     {<br><span style="color: #008080;"> 3</span>         List&lt;channel&gt; list=<span style="color: #0000ff;">new</span> ArrayList&lt;channel&gt;();<br><span style="color: #008080;"> 4</span>         <br><span style="color: #008080;"> 5</span>         <span style="color: #008000;">//</span><span style="color: #008000;">得到 DocumentBuilderFactory 对象, 由该对象可以得到 DocumentBuilder 对象</span><span style="color: #008000;"><br></span><span style="color: #008080;"> 6</span>         DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();<br><span style="color: #008080;"> 7</span>         <br><span style="color: #008080;"> 8</span>         <span style="color: #0000ff;">try</span> {<br><span style="color: #008080;"> 9</span>             <span style="color: #008000;">//</span><span style="color: #008000;">得到DocumentBuilder对象</span><span style="color: #008000;"><br></span><span style="color: #008080;">10</span>             DocumentBuilder builder=factory.newDocumentBuilder();<br><span style="color: #008080;">11</span>             <span style="color: #008000;">//</span><span style="color: #008000;">得到代表整个xml的Document对象</span><span style="color: #008000;"><br></span><span style="color: #008080;">12</span>             Document document=builder.parse(stream);<br><span style="color: #008080;">13</span>             <span style="color: #008000;">//</span><span style="color: #008000;">得到 "根节点" </span><span style="color: #008000;"><br></span><span style="color: #008080;">14</span>             Element root=document.getDocumentElement();<br><span style="color: #008080;">15</span>             <span style="color: #008000;">//</span><span style="color: #008000;">获取根节点的所有items的节点</span><span style="color: #008000;"><br></span><span style="color: #008080;">16</span>             NodeList items=root.getElementsByTagName("item");  <br><span style="color: #008080;">17</span>             <span style="color: #008000;">//</span><span style="color: #008000;">遍历所有节点</span><span style="color: #008000;"><br></span><span style="color: #008080;">18</span>             <span style="color: #0000ff;">for</span>(<span style="color: #0000ff;">int</span> i=0;i&lt;items.getLength();i++)<br><span style="color: #008080;">19</span>             {<br><span style="color: #008080;">20</span>                 channel chann=<span style="color: #0000ff;">new</span> channel();<br><span style="color: #008080;">21</span>                 Element item=(Element)items.item(i);<br><span style="color: #008080;">22</span>                 chann.setId(item.getAttribute("id"));<br><span style="color: #008080;">23</span>                 chann.setUrl(item.getAttribute("url"));<br><span style="color: #008080;">24</span>                 chann.setName(item.getFirstChild().getNodeValue());<br><span style="color: #008080;">25</span>                 list.add(chann);<br><span style="color: #008080;">26</span>             }<br><span style="color: #008080;">27</span>             <br><span style="color: #008080;">28</span>         } <span style="color: #0000ff;">catch</span> (ParserConfigurationException e) {<br><span style="color: #008080;">29</span>             <span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated catch block</span><span style="color: #008000;"><br></span><span style="color: #008080;">30</span>             e.printStackTrace();<br><span style="color: #008080;">31</span>         } <span style="color: #0000ff;">catch</span> (SAXException e) {<br><span style="color: #008080;">32</span>             <span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated catch block</span><span style="color: #008000;"><br></span><span style="color: #008080;">33</span>             e.printStackTrace();<br><span style="color: #008080;">34</span>         } <span style="color: #0000ff;">catch</span> (IOException e) {<br><span style="color: #008080;">35</span>             <span style="color: #008000;">//</span><span style="color: #008000;"> TODO Auto-generated catch block</span><span style="color: #008000;"><br></span><span style="color: #008080;">36</span>             e.printStackTrace();<br><span style="color: #008080;">37</span>         }<br><span style="color: #008080;">38</span>         <br><span style="color: #008080;">39</span>         <span style="color: #0000ff;">return</span> list;<br><span style="color: #008080;">40</span>     }</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>总结一下Dom解析的步骤（和sax类似）</p>
+<p>1、<span>调用 DocumentBuilderFactory.newInstance() 方法得到 DOM 解析器工厂类实例。</span></p>
+<p>2、<span>调用解析</span><span>器工厂实例类的</span><span>&nbsp;newDoc</span><span>umentBui</span><span>lder() 方法得到 DOM 解析器对象</span></p>
+<p><!--EndFragment-->3、<span>调用 DOM 解析器对象的 parse()</span><span>&nbsp;方法解析 XML 文档</span><span>得到代表整个文档的 Document 对象。</span></p>
+<p><strong><span style="font-size: 14pt;">四、总结</span></strong></p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;除以上三种外还有很多解析xml的方法，比如DOM4J、JDOM等等。但其基本的解析方式包含两种，一种是事件驱动的（代表SAX），另一种方式是基于文档结构（代表DOM）。其他的只不过语法不一样而已。</p>
+<p>附（本文示例运行截屏）：</p>
+<p><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2012022412304193.gif" alt="">&nbsp;&nbsp;</p>
+<p><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/2012022412310612.gif" alt=""></p>
+<p>&nbsp;</p>
+<p><a href="http://files.cnblogs.com/JerryWang1991/XMLParser.zip" target="_blank">下载源码</a></p></div><div style="display: block;" id="MySignature">----转载请注明出处http://www.cnblogs.com/JerryWang1991/  谢谢！</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/JerryWang1991/category/320719.html">Android</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(2365507,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow();" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/JerryWang1991/" target="_blank"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20131019212603.jpg" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/JerryWang1991/">wangyan9110</a><br>
+            <a href="http://home.cnblogs.com/u/JerryWang1991/followees">关注 - 69</a><br>
+            <a href="http://home.cnblogs.com/u/JerryWang1991/followers">粉丝 - 60</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow();return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(2365507,'Digg')">
+        <span class="diggnum" id="digg_count">10</span>
+    </div>
+    <div class="buryit" onclick="votePost(2365507,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+            (请您对文章做出评价)
+    </div>
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/02/15/3936394.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/JerryWang1991/archive/2012/02/15/3936394.html" title="发布于2012-02-15 23:11">CSDNReader(android客户端)发布！！</a><br><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/03/02/3936393.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/JerryWang1991/archive/2012/03/02/3936393.html" title="发布于2012-03-02 23:54">CSDN阅读器（android版）开发总结</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2012-02-24 12:38</span> <a href="http://www.cnblogs.com/JerryWang1991/">wangyan9110</a> 阅读(<span id="post_view_count">36076</span>) 评论(<span id="post_comment_count">7</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=2365507" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(2365507);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=86129,cb_entryId=2365507,cb_blogApp=currentBlogApp,cb_blogUserGuid='a5607efa-48a7-df11-8eb9-001cf0cd104b',cb_entryCreatedDate='2012/2/24 12:38:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#2316054" class="layer">#1楼</a><a name="2316054" id="comment_anchor_2316054"></a>  <span class="comment_date">2012-02-24 12:48</span> <a id="a_comment_author_2316054" href="http://www.cnblogs.com/tiantianbyconan/" target="_blank">天天_byconan</a> <a href="http://msg.cnblogs.com/send/%E5%A4%A9%E5%A4%A9_byconan" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2316054" class="blog_comment_body">怎么在解析完需要的那部分数据后停止解析呢？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2316054,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2316054,'Bury',this)">反对(0)</a></div><span id="comment_2316054_avatar" style="display:none;">http://pic.cnblogs.com/face/u378300.jpg?id=23101817</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#2316057" class="layer">#2楼</a><a name="2316057" id="comment_anchor_2316057"></a>[<span class="louzhu">楼主</span>]  <span class="comment_date">2012-02-24 12:56</span> <a id="a_comment_author_2316057" href="http://www.cnblogs.com/JerryWang1991/" target="_blank">wangyan9110</a> <a href="http://msg.cnblogs.com/send/wangyan9110" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2316057" class="blog_comment_body"><a href="#2316054" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2316054);">@</a>
+天天_byconan<br>可以在解析函数中，做个判断，返回已解析的结果</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2316057,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2316057,'Bury',this)">反对(0)</a></div><span id="comment_2316057_avatar" style="display:none;">http://pic.cnblogs.com/face/152534/20131019212603.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#2316076" class="layer">#3楼</a><a name="2316076" id="comment_anchor_2316076"></a>  <span class="comment_date">2012-02-24 13:12</span> <a id="a_comment_author_2316076" href="http://home.cnblogs.com/u/366902/" target="_blank">匹配度</a> <a href="http://msg.cnblogs.com/send/%E5%8C%B9%E9%85%8D%E5%BA%A6" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2316076" class="blog_comment_body">大牛。膜拜</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2316076,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2316076,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#2316106" class="layer">#4楼</a><a name="2316106" id="comment_anchor_2316106"></a>  <span class="comment_date">2012-02-24 13:49</span> <a id="a_comment_author_2316106" href="http://www.cnblogs.com/allenzh/" target="_blank">码代码微信</a> <a href="http://msg.cnblogs.com/send/%E7%A0%81%E4%BB%A3%E7%A0%81%E5%BE%AE%E4%BF%A1" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2316106" class="blog_comment_body">表示从未用过pull和sax的飘过</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2316106,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2316106,'Bury',this)">反对(0)</a></div><span id="comment_2316106_avatar" style="display:none;">http://pic.cnblogs.com/face/u356892.jpg?id=24110724</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#2621045" class="layer">#5楼</a><a name="2621045" id="comment_anchor_2621045"></a>  <span class="comment_date">2013-02-22 10:13</span> <a id="a_comment_author_2621045" href="http://www.cnblogs.com/sunshibiao/" target="_blank">sun天涯</a> <a href="http://msg.cnblogs.com/send/sun%E5%A4%A9%E6%B6%AF" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2621045" class="blog_comment_body">这小伙潜力深啊</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2621045,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2621045,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#2683736" class="layer">#6楼</a><a name="2683736" id="comment_anchor_2683736"></a>  <span class="comment_date">2013-05-18 10:16</span> <a id="a_comment_author_2683736" href="http://home.cnblogs.com/u/447398/" target="_blank">虎虎12345</a> <a href="http://msg.cnblogs.com/send/%E8%99%8E%E8%99%8E12345" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2683736" class="blog_comment_body">学习了</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2683736,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2683736,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3145660" class="layer">#7楼</a><a name="3145660" id="comment_anchor_3145660"></a><span id="comment-maxId" style="display:none;">3145660</span><span id="comment-maxDate" style="display:none;">2015/3/21 0:53:38</span>  <span class="comment_date">2015-03-21 00:53</span> <a id="a_comment_author_3145660" href="http://www.cnblogs.com/vagrant1991/" target="_blank">流浪者的五月</a> <a href="http://msg.cnblogs.com/send/%E6%B5%81%E6%B5%AA%E8%80%85%E7%9A%84%E4%BA%94%E6%9C%88" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3145660" class="blog_comment_body">感谢分享</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3145660,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3145660,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="http://www.rongcloud.cn/" target="_blank">【推荐】融云即时通讯云－豆果美食、Faceu等亿级APP都在用</a><br><a href="http://www.gcpowertools.com.cn/products/activereports_overview.htm?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=AR&amp;utm_campaign=community" target="_blank">【推荐】报表开发有捷径：快速设计轻松集成，数据可视化和交互</a><br><a href="http://event.open.alipay.com/?adtag=bokeyuan2016" target="_blank">【活动】蚂蚁金服开放平台合作伙伴大会(北京8.10)</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://www.rongcloud.cn/" target="_blank"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20151020212817208-240968553.png" alt="" height="250" width="300"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/550533/" target="_blank">百度叫停贴吧运营权变现 代理商损失惨重</a><br> ·  <a href="http://news.cnblogs.com/n/550532/" target="_blank">58裁撤多名大代理商致矛盾升级</a><br> ·  <a href="http://news.cnblogs.com/n/550531/" target="_blank">千万别无视机器学习：谷歌和Facebook都在琢磨它</a><br> ·  <a href="http://news.cnblogs.com/n/550530/" target="_blank">新型自愈织物材料可使衣服裂缝自动缝合</a><br> ·  <a href="http://news.cnblogs.com/n/550529/" target="_blank">微软开始以119.99美元起的价格销售Win10</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="ad_c2" class="c_ad_block"><a href="https://www.jiguang.cn/?from=cnblogs01" target="_blank"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20160613130538213-1713265809.jpg" alt="" height="60" width="468"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/540529/" target="_blank">可是姑娘，你为什么要编程呢？</a><br> ·  <a href="http://kb.cnblogs.com/page/549631/" target="_blank">知其所以然（以算法学习为例）</a><br> ·  <a href="http://kb.cnblogs.com/page/548394/" target="_blank">如何给变量取个简短且无歧义的名字</a><br> ·  <a href="http://kb.cnblogs.com/page/549080/" target="_blank">编程的智慧</a><br> ·  <a href="http://kb.cnblogs.com/page/549049/" target="_blank">写给初学前端工程师的一封信</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p style="color:red;">
+欢迎访问我的独立博客，博客地址<a href="http://yywang.info/">http://yywang.info</a></p><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/JerryWang1991/">wangyan9110</a><br>园龄：<a href="http://home.cnblogs.com/u/JerryWang1991/" title="入园时间：2010-08-14">5年11个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/JerryWang1991/followers/">60</a><br>关注：<a href="http://home.cnblogs.com/u/JerryWang1991/followees/">69</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('a5607efa-48a7-df11-8eb9-001cf0cd104b')">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" title="Calendar" cellpadding="0" cellspacing="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2012/01/01');return false;">&lt;</a></td><td align="center">2012年2月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2012/03/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td class="CalWeekendDay" align="center">4</td></tr><tr><td class="CalWeekendDay" align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td class="CalWeekendDay" align="center">11</td></tr><tr><td class="CalWeekendDay" align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center"><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/02/15.html"><u>15</u></a></td><td align="center">16</td><td align="center">17</td><td class="CalWeekendDay" align="center">18</td></tr><tr><td class="CalWeekendDay" align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center"><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/02/24.html"><u>24</u></a></td><td class="CalWeekendDay" align="center">25</td></tr><tr><td class="CalWeekendDay" align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td></tr><tr><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block"></div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/JerryWang1991/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/JerryWang1991/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/JerryWang1991/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/JerryWang1991/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/JerryWang1991/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/JerryWang1991/category/307249.html">Ajax学习(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/JerryWang1991/category/320719.html">Android(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/JerryWang1991/category/458012.html">asp.net mvc(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/JerryWang1991/category/319827.html">asp.net webform(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/JerryWang1991/category/316284.html">CLR学习(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/JerryWang1991/category/528818.html">Html5(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/JerryWang1991/category/607688.html">java</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/JerryWang1991/category/528816.html">javascript(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/JerryWang1991/category/324482.html">linux编程(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/JerryWang1991/category/566059.html">maven(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/JerryWang1991/category/528815.html">Nodejs(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/JerryWang1991/category/528817.html">php</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/JerryWang1991/category/465031.html">WPF(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/JerryWang1991/category/607689.html">设计模式(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/JerryWang1991/category/319825.html">暑期实习</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="http://www.cnblogs.com/JerryWang1991/category/307250.html">数据结构与算法</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/JerryWang1991/archive/2015/01.html">2015年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/JerryWang1991/archive/2014/08.html">2014年8月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/JerryWang1991/archive/2014/07.html">2014年7月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/JerryWang1991/archive/2014/04.html">2014年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/JerryWang1991/archive/2014/01.html">2014年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/JerryWang1991/archive/2013/12.html">2013年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/JerryWang1991/archive/2013/11.html">2013年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/JerryWang1991/archive/2013/09.html">2013年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/JerryWang1991/archive/2013/08.html">2013年8月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/JerryWang1991/archive/2013/07.html">2013年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/JerryWang1991/archive/2013/05.html">2013年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/JerryWang1991/archive/2013/03.html">2013年3月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/JerryWang1991/archive/2013/01.html">2013年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/JerryWang1991/archive/2012/06.html">2012年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/JerryWang1991/archive/2012/03.html">2012年3月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/JerryWang1991/archive/2012/02.html">2012年2月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/JerryWang1991/archive/2011/09.html">2011年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/JerryWang1991/archive/2011/08.html">2011年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/JerryWang1991/archive/2011/07.html">2011年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/JerryWang1991/archive/2011/06.html">2011年6月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/JerryWang1991/archive/2011/01.html">2011年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/JerryWang1991/archive/2010/11.html">2010年11月 (3)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/JerryWang1991/archive/2013/03/08/2950457.html#3387130">1. Re:解决Asp.net Mvc返回JsonResult中DateTime类型数据格式的问题</a></li>
+        <li class="recent_comment_body">CustomJsonResult 的第 28行少了一个 "!" ，这会导致需要手动将返回的JSON 格式数据转为JSON对象。</li>
+        <li class="recent_comment_author">--NewStar_Lin</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/JerryWang1991/p/3936378.html#3381565">2. Re:maven assembly plugin使用</a></li>
+        <li class="recent_comment_body">${project.basedir}\src\main\resources \应该是${project.basedir}\src\main\resources ......</li>
+        <li class="recent_comment_author">--lvyahui</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/06/29/2570492.html#3344658">3. Re:jquery easyui+ashx+三层框架实现增删改查</a></li>
+        <li class="recent_comment_body">USE [db_register]GO/****** Object: Table [dbo].[System_departmentsInfo] Script Date: 01/10/2016 ......</li>
+        <li class="recent_comment_author">--咸鱼翻身</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/02/24/2365507.html">1. android解析XML总结（SAX、Pull、Dom三种方式）(36076)</a></li><li><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/03/09/2388312.html">2. ListView动态加载数据分页（使用Handler+线程和AsyncTask两种方法）(10739)</a></li><li><a href="http://www.cnblogs.com/JerryWang1991/archive/2013/03/08/2950457.html">3. 解决Asp.net Mvc返回JsonResult中DateTime类型数据格式的问题(9945)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/06/29/2570492.html">1. jquery easyui+ashx+三层框架实现增删改查(18)</a></li><li><a href="http://www.cnblogs.com/JerryWang1991/archive/2013/03/08/2950457.html">2. 解决Asp.net Mvc返回JsonResult中DateTime类型数据格式的问题(16)</a></li><li><a href="http://www.cnblogs.com/JerryWang1991/archive/2011/09/19/2180939.html">3. .net4.0面向对象学习笔记—数据类型(8)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/06/29/2570492.html">1. jquery easyui+ashx+三层框架实现增删改查(10)</a></li><li><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/02/24/2365507.html">2. android解析XML总结（SAX、Pull、Dom三种方式）(10)</a></li><li><a href="http://www.cnblogs.com/JerryWang1991/archive/2012/03/09/2388312.html">3. ListView动态加载数据分页（使用Handler+线程和AsyncTask两种方法）(6)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 wangyan9110
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+<!--PageEndHtml Block Begin-->
+<script type="text/javascript">
+    var _speedMark = new Date();
+</script>
+<script type="text/javascript" src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/stats" charset="UTF-8"></script>
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fb0f935a1dcf19fac53a9c92c700fff61' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/h.js" type="text/javascript"></script><a href="http://tongji.baidu.com/hm-web/welcome/ico?s=b0f935a1dcf19fac53a9c92c700fff61" target="_blank"><img src="android%E8%A7%A3%E6%9E%90XML%E6%80%BB%E7%BB%93%EF%BC%88SAX%E3%80%81Pull%E3%80%81Dom%E4%B8%89%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%89%20-%20wangyan9110%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/21.gif" height="20" border="0" width="20"></a>
+<!--PageEndHtml Block End-->
+
+
+</body></html>
